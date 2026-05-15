@@ -1,6 +1,6 @@
 # azure-prepare Vally Eval Suite
 
-Evaluation suite for the `azure-prepare` skill using [Vally](https://www.npmjs.com/package/@microsoft/vally).
+Evaluation suite for the `azure-prepare` skill using [Vally](https://www.npmjs.com/package/@microsoft/vally-cli).
 
 ## Quick Start
 
@@ -9,13 +9,15 @@ There are three ways to run `vally`:
 **Option 1 — npm scripts (recommended)**
 ```bash
 # Install vally globally
-npm install -g @microsoft/vally
+npm install -g @microsoft/vally-cli
 
-# Run with mock executor (fast, no auth)
+# Run with mock executor (fast, no auth) — uses executor: mock in eval.yaml
 vally eval -e tests/azure-prepare/eval/eval.yaml \
   --work-dir tests/azure-prepare/eval/fixtures --verbose
 
-# Run with real Copilot SDK (requires GITHUB_TOKEN)
+# Run with real Copilot SDK (requires COPILOT_GITHUB_TOKEN):
+# Edit tests/azure-prepare/eval/eval.yaml and change `executor: mock` → `executor: copilot-sdk`, then:
+# export COPILOT_GITHUB_TOKEN=<your-token>
 vally eval -e tests/azure-prepare/eval/eval.yaml \
   --work-dir tests/azure-prepare/eval/fixtures --verbose
 ```
@@ -103,7 +105,7 @@ This repo has **two eval modes** that complement each other:
 |---|---|---|
 | **Runner** | Jest + @github/copilot-sdk | Vally CLI (Node.js) |
 | **Speed** | Fast for unit/trigger, slow for integration | Mock executor = fast, copilot-sdk = slow |
-| **Auth** | Copilot SDK for integration tests | Mock needs none, copilot-sdk needs GITHUB_TOKEN |
+| **Auth** | Copilot SDK for integration tests | Mock needs none, copilot-sdk needs COPILOT_GITHUB_TOKEN |
 | **Graders** | Custom JS assertions | YAML-defined (regex, code, behavior, file, action_sequence) |
 | **CI** | `npm run test:ci` | `vally eval --suite full` (exit code 0/1/2) |
 | **Best for** | Skill metadata validation, trigger matching | Template selection accuracy, composable recipe correctness |

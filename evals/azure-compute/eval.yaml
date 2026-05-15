@@ -2,12 +2,17 @@
 # Source: tests/azure-compute/integration.test.ts
 # Migration: Jest → Vally (Batch 2 — Medium)
 #
-# Global graders (evaluate#125 workaround): completed and no_runtime_failure
-# are duplicated into every stimulus block below.
+# What this eval validates:
+#   - skill-invocation: azure-compute is invoked for all compute-related prompts
+#   - completed: response is non-empty (has_output)
+#   - output-not-matches: no fatal errors / unhandled exceptions in responses
+#   - tool-calls (view): verifies the "view" tool is called — path-pattern
+#     specificity (e.g. RECOMMENDER_WORKFLOW_PATH, TROUBLESHOOTER_WORKFLOW_PATH)
+#     is NOT expressible in Vally and is a known coverage gap vs the Jest suite.
 #
-# Note: Jest tests used isToolCalled(metadata, "view", workflowPathPattern)
-# to verify specific workflow files were opened. Vally tool-calls grader
-# checks that the "view" tool was called (path pattern not expressible).
+# Known gap: Jest tests used isToolCalled(metadata, "view", workflowPathPattern)
+# to assert the exact reference file was opened. Tool-call argument matching
+# (path pattern validation) is deferred; tracked as a future enhancement.
 
 name: azure-compute-integration-eval
 description: |
@@ -31,6 +36,11 @@ config:
 
 scoring:
   threshold: 0.8
+  weights:
+    output-contains: 0.5
+    output-not-contains: 2.0
+    output-not-matches: 2.0
+    skill-invocation: 2.0
 
 stimuli:
   # ═══════════════════════════════════════════════════════════════════════

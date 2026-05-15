@@ -42,10 +42,6 @@ graders:
     name: security_posture
     config:
       pattern: "(?i)connection.?string.*=.*Account(Key|Name)=|SharedAccessKey="
-  - type: output-matches
-    name: nodejs_entry_point
-    config:
-      pattern: "(?i)index\\.(js|ts)|app\\.setup|entry.?point|node|typescript|javascript"
 
 tasks:
   - "tasks/*.yaml"

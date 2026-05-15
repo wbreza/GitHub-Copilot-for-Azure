@@ -30,6 +30,11 @@ expected:
     - "plan"
 
 graders:
+  - name: nodejs_entry_point
+    type: regex
+    config:
+      must_match:
+        - "(?i)index\\.(js|ts)|app\\.setup|entry.?point|node|typescript|javascript"
   - name: selects_terraform_base
     type: regex
     config:

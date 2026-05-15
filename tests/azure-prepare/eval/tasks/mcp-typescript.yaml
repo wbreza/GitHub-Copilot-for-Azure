@@ -29,6 +29,11 @@ expected:
     - "plan"
 
 graders:
+  - name: nodejs_entry_point
+    type: regex
+    config:
+      must_match:
+        - "(?i)index\\.(js|ts)|app\\.setup|entry.?point|node|typescript|javascript"
   - name: uses_http_base_for_mcp
     type: regex
     config:
